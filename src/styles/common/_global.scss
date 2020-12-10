@@ -1,0 +1,103 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+a {
+  display: inline-block;
+
+  text-decoration: none;
+}
+
+img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+input {
+  font: inherit;
+
+  border: none;
+  outline: none;
+  background: none;
+}
+
+input[type='button'] {
+  padding: 0;
+
+  cursor: pointer;
+}
+
+button {
+  font: inherit;
+
+  padding: 0;
+
+  cursor: pointer;
+
+  border: none;
+  outline: none;
+  background: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-primary;
+  font-size: 1.6em;
+
+  margin: 0;
+
+  color: $color-primary-dark;
+}
+
+.container {
+  width: 1200px;
+  max-width: 100%;
+  margin: auto;
+  padding: 0 15px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+}
+
+.scroll-hidden {
+  overflow: hidden;
+
+  height: 100%;
+}
