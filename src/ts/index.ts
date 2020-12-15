@@ -1,18 +1,15 @@
 import '../styles/style.scss';
-import HeaderComponent from './components/header.component';
-import CategoryComponent from './components/category.component';
-import PlayBtnComponent from './components/play-btn.component';
-import PlayMode from './play-mode';
+import ApiData from './data/api.data';
+import API_REQUESTS from './constants/api.requests.const';
 
-export const header: HeaderComponent = new HeaderComponent();
-export const categories: CategoryComponent = new CategoryComponent();
-export const playMode: PlayMode = new PlayMode();
-export const playBtn: PlayBtnComponent = new PlayBtnComponent();
+const api: ApiData = new ApiData();
 
-const init = (): void => {
-  header.initHeader();
-  categories.initCategories();
-  playBtn.initPlayBtn();
+const init = async () => {
+  const covid = await api.getCovidInfo(API_REQUESTS.covid.summary);
+  const countries = await api.getCountriesInfo(API_REQUESTS.countries);
+
+  console.log(covid.Global);
+  console.log(countries);
 };
 
 init();
