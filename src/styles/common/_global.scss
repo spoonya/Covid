@@ -70,6 +70,8 @@ button {
 }
 
 html {
+  font-size: 62.5%;
+
   scroll-behavior: smooth;
 }
 
@@ -79,14 +81,7 @@ body {
 
   margin: 0;
 
-  color: $color-primary-dark;
-}
-
-.container {
-  width: 1200px;
-  max-width: 100%;
-  margin: auto;
-  padding: 0 15px;
+  color: $color-primary-light;
 }
 
 .page {
@@ -94,6 +89,8 @@ body {
   flex-direction: column;
 
   min-height: 100vh;
+
+  background-color: darken($color-primary-dark, 5);
 }
 
 .scroll-hidden {

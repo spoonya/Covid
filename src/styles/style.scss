@@ -1,7 +1,13 @@
 @import 'utils/vars';
 
 @import 'mixins/media';
+@import 'mixins/block';
 
 @import 'common/global';
 @import 'common/header';
 @import 'common/footer';
+
+@import 'index/content';
+@import 'index/cases';
+@import 'index/world';
+@import 'index/stats';

@@ -1,0 +1,24 @@
+.world {
+  @include block;
+
+  flex: 3 1;
+
+  &__map {
+    @include block-item;
+
+    flex: 1 1;
+  }
+
+  &__cases {
+    @include block-item;
+  }
+
+  &__title {
+    @include block-title;
+  }
+
+  &__number {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+}

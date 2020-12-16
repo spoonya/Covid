@@ -5,23 +5,23 @@ interface CountriesInfo {
   readonly population: number;
 }
 
-interface CovidCountriesInfo {
-  readonly Country: string;
-  readonly CountryCode: string;
-  readonly Date: Date;
-  readonly NewConfirmed: number;
-  readonly NewDeaths: number;
-  readonly NewRecovered: number;
-  readonly Slug: string;
-  readonly TotalConfirmed: number;
-  readonly TotalDeaths: number;
-  readonly TotalRecovered: number;
-}
-
 interface CovidInfo {
   readonly Message: string;
   readonly Date: Date;
-  readonly Countries: CovidCountriesInfo[];
+  readonly Countries: [
+    {
+      readonly Country: string;
+      readonly CountryCode: string;
+      readonly Date: Date;
+      readonly NewConfirmed: number;
+      readonly NewDeaths: number;
+      readonly NewRecovered: number;
+      readonly Slug: string;
+      readonly TotalConfirmed: number;
+      readonly TotalDeaths: number;
+      readonly TotalRecovered: number;
+    },
+  ];
   readonly Global: {
     readonly NewConfirmed: number;
     readonly NewDeaths: number;

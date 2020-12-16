@@ -1,0 +1,19 @@
+@mixin block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@mixin block-item {
+  margin: .7rem;
+  padding: 1rem;
+
+  text-align: center;
+
+  border: 2px solid $color-secondary-dark;
+  background-color: $color-primary-dark;
+}
+
+@mixin block-title {
+  font-size: 1.6rem;
+}

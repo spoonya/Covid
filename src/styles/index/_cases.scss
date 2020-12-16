@@ -1,0 +1,36 @@
+.cases {
+  @include block;
+
+  flex: 1 1;
+
+  &__global {
+    @include block-item;
+  }
+
+  &__title {
+    @include block-title;
+
+    margin-bottom: .6rem;
+  }
+
+  &__number {
+    font-size: 2.5rem;
+    font-weight: 500;
+
+    color: $color-secondary-dark;
+  }
+
+  &__by {
+    @include block-item;
+
+    flex: 2 1;
+  }
+
+  &__date {
+    @include block-item;
+
+    &-value {
+      font-weight: 500;
+    }
+  }
+}

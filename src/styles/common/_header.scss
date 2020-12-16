@@ -1,0 +1,17 @@
+.header {
+  margin-bottom: .7rem;
+  padding: 1rem 0;
+
+  background-color: $color-primary-dark;
+
+  &__title {
+    font-weight: 700;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    span {
+      color: $color-secondary-dark;
+    }
+  }
+}

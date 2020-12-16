@@ -5,13 +5,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>COVID-19 Map</title>
 </head>
 
 <body>
   <div class="page">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title"><span>Covid-19</span> Dashboard</h1>
+      </div>
+    </header>
 
+    <main class="content">
+      <div class="cases">
+        <div class="cases__global">
+          <h2 class="cases__title">Global cases</h2>
+          <p class="cases__number">73 453 745</p>
+        </div>
+        <div class="cases__by">
+          <h2 class="cases__title">Cases by <br> Country/Region/Sovereignty</h2>
+        </div>
+        <div class="cases__date">
+          <h2 class="cases__title">Last Updated at (M/D/YYYY)</h2>
+          <p class="cases__date-value">12/16/2020, 10:26 ДП</p>
+        </div>
+      </div>
+
+      <div class="world">
+        <div class="world__map">Map</div>
+        <div class="world__cases">
+          <p class="world__number">191</p>
+          <h2 class="world__title">countries/regions</h2>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stats__group">
+          <div class="stats__global">
+            <h2 class="stats__title">Global Deaths
+            </h2>
+            <p class="stats__number">1 635 995</p>
+          </div>
+          <div class="stats__usa">
+            <h2 class="stats__title">US State Level
+            </h2>
+            <h3 class="stats__subtitle">Deaths, Recovered</h3>
+          </div>
+        </div>
+        <div class="stats__graph">Graph</div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <address class="footer__info">
+        2020
+        <a class="footer__link" href="https://github.com/spoonya">Siarhei Punia</a> for
+        <a href="https://rs.school/js/">
+          <img class="footer__img" src="assets/img/rss.png" alt="The Rolling Scopes School">
+        </a>
+      </address>
+    </footer>
   </div>
 </body>
 
