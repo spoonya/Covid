@@ -1,7 +1,9 @@
 .cases {
   @include block;
 
-  flex: 1 1;
+  flex: 2 1;
+
+  max-width: 20%;
 
   &__global {
     @include block-item;
@@ -23,7 +25,30 @@
   &__by {
     @include block-item;
 
+    overflow: hidden;
     flex: 2 1;
+  }
+
+  &__table {
+    overflow-y: auto;
+
+    max-height: calc(100%-30px);
+
+    td:nth-child(1),
+    th:nth-child(1) {
+      width: 5%;
+    };
+
+    td:nth-child(2),
+    th:nth-child(2) {
+      font-weight: 500;
+
+      width: 50%;
+
+      text-align: right;
+
+      color: $color-secondary-dark;
+    }
   }
 
   &__date {

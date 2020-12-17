@@ -3,27 +3,27 @@
   padding: 10px 15px;
 
   background-color: $color-primary-dark;
-}
 
-.footer__info {
-  font-size: 1.5rem;
-  font-style: normal;
+  &__info {
+    font-size: 1.5rem;
+    font-style: normal;
 
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 
-  color: darken($color-primary-light, 20);
-}
+    color: darken($color-primary-light, 20);
+  }
 
-.footer__link {
-  margin: 0 5px;
+  &__link {
+    margin: 0 5px;
 
-  color: $color-primary-light;
-}
+    color: $color-primary-light;
+  }
 
-.footer__img {
-  max-width: 50px;
-  max-height: 50px;
-  margin-left: 5px;
+  &__img {
+    max-width: 50px;
+    max-height: 50px;
+    margin-left: 5px;
+  }
 }

@@ -1,0 +1,27 @@
+.table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  th {
+    font-weight: 500;
+  }
+
+  td,
+  th {
+    width: 20%;
+    padding: 5px;
+
+    text-align: left;
+  }
+
+  // tr {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+  // }
+
+  tr:nth-child(even) {
+    background-color: lighten($color-primary-dark, 3);
+  }
+}

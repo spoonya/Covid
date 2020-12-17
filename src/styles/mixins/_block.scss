@@ -5,13 +5,14 @@
 }
 
 @mixin block-item {
-  margin: .7rem;
-  padding: 1rem;
+  margin: 4px;
+  padding: 5px;
 
   text-align: center;
 
-  border: 2px solid $color-secondary-dark;
+  border: 1px solid lighten($color-primary-dark, 15);
   background-color: $color-primary-dark;
+  box-shadow: 0 0 5px #000;
 }
 
 @mixin block-title {

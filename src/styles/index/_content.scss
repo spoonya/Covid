@@ -3,7 +3,7 @@
   justify-content: space-between;
 
   width: 100%;
-  min-height: 82vh;
+  min-height: calc(100vh-100px);
   margin: 0 auto;
-  padding: 0 5px;
+  padding: 5px;
 }

@@ -11,6 +11,8 @@
 
   &__cases {
     @include block-item;
+
+    flex: 0 1;
   }
 
   &__title {
