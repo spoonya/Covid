@@ -5,11 +5,15 @@ interface Dom {
     readonly world: HTMLElement | null;
     readonly map: HTMLElement | null;
     readonly casesTable: HTMLElement | null;
+    readonly statsTable: HTMLElement | null;
   };
-  readonly strings: {
-    readonly casesGlobalAttr: string;
-    readonly dateAttr: string;
-    readonly countriesCountAttr: string;
+  readonly attributes: {
+    readonly casesGlobal: string;
+    readonly date: string;
+    readonly countriesCount: string;
+  };
+  readonly classes: {
+    readonly table: string;
   };
 }
 
@@ -20,11 +24,15 @@ const DOM: Dom = {
     world: document.querySelector('.world'),
     map: document.querySelector('.world__map'),
     casesTable: document.querySelector('.cases__table'),
+    statsTable: document.querySelector('.stats__table'),
   },
-  strings: {
-    casesGlobalAttr: '[data-cases-number]',
-    dateAttr: '[data-date-updated]',
-    countriesCountAttr: '[data-countries-count]',
+  attributes: {
+    casesGlobal: '[data-cases-number]',
+    date: '[data-date-updated]',
+    countriesCount: '[data-countries-count]',
+  },
+  classes: {
+    table: 'table',
   },
 };
 

@@ -18,3 +18,17 @@
 @mixin block-title {
   font-size: 1.6rem;
 }
+
+@mixin block-table-parent {
+  @include scroll;
+
+  overflow: hidden;
+
+  padding: 5px 0;
+}
+
+@mixin block-table-wrapper {
+  overflow-y: auto;
+
+  max-height: calc(100%-30px);
+}

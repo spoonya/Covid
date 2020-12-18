@@ -24,29 +24,34 @@
 
   &__by {
     @include block-item;
+    @include block-table-parent;
 
-    overflow: hidden;
     flex: 2 1;
   }
 
   &__table {
-    overflow-y: auto;
-
-    max-height: calc(100%-30px);
+    @include block-table-wrapper;
 
     td:nth-child(1),
     th:nth-child(1) {
-      width: 5%;
+      width: 20%;
     };
 
     td:nth-child(2),
     th:nth-child(2) {
+      width: 20%;
+    };
+
+    td:nth-child(3),
+    th:nth-child(3) {
       font-weight: 500;
 
-      width: 50%;
+      width: 70%;
 
       text-align: right;
+    }
 
+    td:nth-child(3) {
       color: $color-secondary-dark;
     }
   }

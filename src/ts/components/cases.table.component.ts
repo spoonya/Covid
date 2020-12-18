@@ -1,45 +1,32 @@
-import prettifyNumber from '../helpers/pretiffy.number.helper';
+import TableComponent from './table.component';
+import { CovidInfo, CountriesInfo, CovidCountries } from '../data/api.data';
 
 export default class CasesTableComponent {
   private parent!: HTMLElement;
 
-  private tableCol!: HTMLElement;
-
-  private tableRow!: HTMLElement;
-
   constructor(parent: HTMLElement) {
     this.parent = parent;
-    // this.init();
   }
 
-  // private init = (): void => {
-  //   const component: string = `<div class="cases__global">
-  //                               <h2 class="cases__title">Global cases</h2>
-  //                               <p class="cases__number" ${this.casesAttr.slice(1, -1)}></p>
-  //                             </div>`;
-  //   this.parent?.insertAdjacentHTML('afterbegin', component);
-  // };
+  private createDataArray = (covidArray: CovidCountries[], countriesArray: CountriesInfo[]): Array<any> => {
+    const countriesLength = covidArray.length;
+    const newArray: any[][] = [];
 
-  public fillTable = (countries: any): void => {
-    const tableBody = this.parent.querySelector('tbody');
-    countries.sort((a: any, b: any) => b.TotalConfirmed - a.TotalConfirmed);
+    for (let i = 0; i < countriesLength; i++) {
+      newArray[i] = [];
+      const flagSrc = countriesArray.find((el) => el.alpha2Code === covidArray[i].CountryCode)?.flag;
+      const flagImg = `<img src="${flagSrc}" alt="Flag of ${covidArray[i].Country}">`;
 
-    for (let i = 0; i < countries.length; i++) {
-      this.tableRow = document.createElement('tr');
-
-      // this.tableCol = document.createElement('td');
-      // this.tableCol.innerText = countries[i].CountryCode;
-      // this.tableRow.append(this.tableCol);
-
-      this.tableCol = document.createElement('td');
-      this.tableCol.innerText = countries[i].Country;
-      this.tableRow.append(this.tableCol);
-
-      this.tableCol = document.createElement('td');
-      this.tableCol.innerText = prettifyNumber(countries[i].TotalConfirmed);
-      this.tableRow.append(this.tableCol);
-
-      tableBody?.append(this.tableRow);
+      newArray[i].push(flagImg, covidArray[i].Country, covidArray[i].TotalConfirmed);
     }
+
+    return newArray;
+  };
+
+  public fillTable = (covidInfo: CovidInfo, countriesInfo: CountriesInfo[]): void => {
+    const covidCountries = covidInfo.Countries.slice().sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
+    const dataArray = this.createDataArray(covidCountries, countriesInfo);
+
+    new TableComponent(dataArray).render(this.parent);
   };
 }

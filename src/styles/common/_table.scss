@@ -3,6 +3,10 @@
 
   border-collapse: collapse;
 
+  img {
+    max-width: 30px;
+  }
+
   th {
     font-weight: 500;
   }
@@ -15,13 +19,7 @@
     text-align: left;
   }
 
-  // tr {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: space-between;
-  // }
-
-  tr:nth-child(even) {
+  tr:nth-child(odd) {
     background-color: lighten($color-primary-dark, 3);
   }
 }
