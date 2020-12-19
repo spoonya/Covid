@@ -9,6 +9,7 @@ import CountriesCountComponent from './components/countries.count.component';
 import CasesTableComponent from './components/cases.table.component';
 import StatsTableComponent from './components/stats.table.component';
 import ChartComponent from './components/chart.component';
+import Map from './components/map.component';
 
 const init = async (): Promise<void> => {
   const data = new ApiData();
@@ -18,6 +19,7 @@ const init = async (): Promise<void> => {
   const casesTable = new CasesTableComponent(DOM.htmlElements.casesTable!);
   const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
   const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
+  const map = new Map(DOM.htmlElements.map!);
 
   const covidSummary = await data.getCovidSummary(API_REQUESTS.summary);
   const covidCountries = await data.getCovidCountries(API_REQUESTS.countries);
@@ -29,6 +31,7 @@ const init = async (): Promise<void> => {
   casesTable.fillTable(covidCountries);
   statsTable.fillTable(covidSummary);
   chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
+  map.init();
 };
 
 init();
