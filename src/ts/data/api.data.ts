@@ -1,50 +1,73 @@
-interface CountriesInfo {
-  readonly flag: string;
-  readonly name: string;
-  readonly alpha2Code: string;
-  readonly population: number;
-}
-
-interface CovidCountries {
-  readonly Country: string;
-  readonly CountryCode: string;
-  readonly Date: Date;
-  readonly NewConfirmed: number;
-  readonly NewDeaths: number;
-  readonly NewRecovered: number;
-  readonly Slug: string;
-  readonly TotalConfirmed: number;
-  readonly TotalDeaths: number;
-  readonly TotalRecovered: number;
-}
-
-interface CovidInfoGlobal {
-  readonly NewConfirmed: number;
-  readonly NewDeaths: number;
-  readonly NewRecovered: number;
-  readonly TotalConfirmed: number;
-  readonly TotalDeaths: number;
-  readonly TotalRecovered: number;
-}
-
-interface CovidInfo {
-  readonly Message: string;
-  readonly Date: Date;
-  readonly Countries: CovidCountries[];
-  readonly Global: CovidInfoGlobal;
-}
-
-interface CovidHistory {
+export interface CovidHistory {
   readonly cases: {};
   readonly deathes: {};
   readonly recovered: {};
 }
 
-class ApiData {
-  public getCountriesInfo = async (url: string): Promise<CountriesInfo[]> => {
+export interface CovidSummary {
+  readonly updated: Date;
+  readonly cases: number;
+  readonly todayCases: number;
+  readonly deaths: number;
+  readonly todayDeaths: number;
+  readonly recovered: number;
+  readonly todayRecovered: number;
+  readonly active: number;
+  readonly critical: number;
+  readonly casesPerOneMillion: number;
+  readonly deathsPerOneMillion: number;
+  readonly tests: number;
+  readonly testsPerOneMillion: number;
+  readonly population: number;
+  readonly oneCasePerPeople: number;
+  readonly oneDeathPerPeople: number;
+  readonly oneTestPerPeople: number;
+  readonly activePerOneMillion: number;
+  readonly recoveredPerOneMillion: number;
+  readonly criticalPerOneMillion: number;
+  readonly affectedCountries: number;
+}
+
+export interface CountryInfo {
+  readonly _id: number;
+  readonly iso3: string;
+  readonly iso2: string;
+  readonly lat: number;
+  readonly long: number;
+  readonly flag: string;
+}
+
+export interface CovidCountries {
+  readonly updated: Date;
+  readonly country: string;
+  readonly countryInfo: CountryInfo;
+  readonly cases: number;
+  readonly todayCases: number;
+  readonly deaths: number;
+  readonly todayDeaths: number;
+  readonly recovered: number;
+  readonly todayRecovered: number;
+  readonly active: number;
+  readonly critical: number;
+  readonly casesPerOneMillion: number;
+  readonly deathsPerOneMillion: number;
+  readonly tests: number;
+  readonly testsPerOneMillion: number;
+  readonly population: number;
+  readonly continent: string;
+  readonly oneCasePerPeople: number;
+  readonly oneDeathPerPeople: number;
+  readonly oneTestPerPeople: number;
+  readonly activePerOneMillion: number;
+  readonly recoveredPerOneMillion: number;
+  readonly criticalPerOneMillion: number;
+}
+
+export class ApiData {
+  public getCovidCountries = async (url: string): Promise<CovidCountries[]> => {
     try {
       const res = await fetch(url);
-      const data: CountriesInfo[] = await res.json();
+      const data: CovidCountries[] = await res.json();
 
       return data;
     } catch (error) {
@@ -52,10 +75,10 @@ class ApiData {
     }
   };
 
-  public getCovidInfo = async (url: string): Promise<CovidInfo> => {
+  public getCovidSummary = async (url: string): Promise<CovidSummary> => {
     try {
       const res = await fetch(url);
-      const data: CovidInfo = await res.json();
+      const data: CovidSummary = await res.json();
 
       return data;
     } catch (error) {
@@ -74,5 +97,3 @@ class ApiData {
     }
   };
 }
-
-export { ApiData, CovidInfo, CountriesInfo, CovidCountries, CovidInfoGlobal };

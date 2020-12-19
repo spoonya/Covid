@@ -1,5 +1,5 @@
 import TableComponent from './table.component';
-import { CovidInfo, CountriesInfo, CovidCountries } from '../data/api.data';
+import * as Covid from '../data/api.data';
 
 export default class CasesTableComponent {
   private parent!: HTMLElement;
@@ -8,24 +8,23 @@ export default class CasesTableComponent {
     this.parent = parent;
   }
 
-  private createDataArray = (covidArray: CovidCountries[], countriesArray: CountriesInfo[]): Array<any> => {
-    const countriesLength = covidArray.length;
+  private createDataArray = (covidCountries: Covid.CovidCountries[]): Array<any> => {
+    const countriesLength = covidCountries.length;
     const newArray: any[][] = [];
 
     for (let i = 0; i < countriesLength; i++) {
       newArray[i] = [];
-      const flagSrc = countriesArray.find((el) => el.alpha2Code === covidArray[i].CountryCode)?.flag;
-      const flagImg = `<img src="${flagSrc}" alt="Flag of ${covidArray[i].Country}">`;
+      const flagImg = `<img src="${covidCountries[i].countryInfo.flag}" alt="Flag of ${covidCountries[i].country}">`;
 
-      newArray[i].push(flagImg, covidArray[i].Country, covidArray[i].TotalConfirmed);
+      newArray[i].push(flagImg, covidCountries[i].country, covidCountries[i].cases);
     }
 
     return newArray;
   };
 
-  public fillTable = (covidInfo: CovidInfo, countriesInfo: CountriesInfo[]): void => {
-    const covidCountries = covidInfo.Countries.slice().sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
-    const dataArray = this.createDataArray(covidCountries, countriesInfo);
+  public fillTable = (covidInfo: Covid.CovidCountries[]): void => {
+    const covidCountries = covidInfo.slice().sort((a, b) => b.cases - a.cases);
+    const dataArray = this.createDataArray(covidCountries);
 
     new TableComponent(dataArray).render(this.parent);
   };

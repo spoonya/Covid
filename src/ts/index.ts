@@ -19,15 +19,15 @@ const init = async (): Promise<void> => {
   const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
   const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
 
-  const covidInfo = await data.getCovidInfo(API_REQUESTS.covid.summary);
-  const covidHistory = await data.getCovidHistory(API_REQUESTS.covid.history);
-  const countriesInfo = await data.getCountriesInfo(API_REQUESTS.countries);
+  const covidSummary = await data.getCovidSummary(API_REQUESTS.summary);
+  const covidCountries = await data.getCovidCountries(API_REQUESTS.countries);
+  const covidHistory = await data.getCovidHistory(API_REQUESTS.history);
 
-  date.setDate(covidInfo.Date);
-  globalCases.setCases(prettifyNumber(covidInfo.Global.TotalConfirmed));
-  countriesCount.setCountriesCount(covidInfo.Countries.length.toString());
-  casesTable.fillTable(covidInfo, countriesInfo);
-  statsTable.fillTable(covidInfo, countriesInfo);
+  date.setDate(covidSummary.updated);
+  globalCases.setCases(prettifyNumber(covidSummary.cases));
+  countriesCount.setCountriesCount(covidSummary.affectedCountries);
+  casesTable.fillTable(covidCountries);
+  statsTable.fillTable(covidSummary);
   chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
 };
 

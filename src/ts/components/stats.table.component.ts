@@ -1,5 +1,5 @@
 import TableComponent from './table.component';
-import { CovidInfo, CountriesInfo, CovidCountries, CovidInfoGlobal } from '../data/api.data';
+import * as Covid from '../data/api.data';
 
 export default class StatsTableComponent {
   private parent!: HTMLElement;
@@ -8,12 +8,12 @@ export default class StatsTableComponent {
     this.parent = parent;
   }
 
-  private createGlobalDataArray = (covidObject: CovidInfoGlobal): any[][] => {
-    return [['Global', covidObject.TotalConfirmed, covidObject.TotalDeaths, covidObject.TotalRecovered]];
+  private createGlobalDataArray = (covidObject: Covid.CovidSummary): any[][] => {
+    return [['Global', covidObject.cases, covidObject.deaths, covidObject.recovered]];
   };
 
-  public fillTable = (covidInfo: CovidInfo, countriesInfo: CountriesInfo[]): void => {
-    const covidCountries = covidInfo.Global;
+  public fillTable = (covidInfo: Covid.CovidSummary): void => {
+    const covidCountries = covidInfo;
     const dataArray = this.createGlobalDataArray(covidCountries);
 
     new TableComponent(dataArray, ['Country', 'Cases', 'Deaths', 'Recovered']).render(this.parent);

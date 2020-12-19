@@ -1,5 +1,5 @@
 import Chart from 'chart.js';
-import { CovidInfo, CountriesInfo, CovidCountries, CovidInfoGlobal } from '../data/api.data';
+import * as Covid from '../data/api.data';
 
 export default class ChartComponent {
   private parent: HTMLElement;
