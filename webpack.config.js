@@ -180,6 +180,10 @@ const config = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
+      minify: {
+        removeScriptTypeAttributes: true,
+        collapseWhitespace: true
+      },
     }),
     new CopyWebpackPlugin([
       // { from: './src/static', to: './' },

@@ -22,7 +22,7 @@
     color: $color-secondary-dark;
   }
 
-  &__by {
+  &__countries {
     @include block-item;
     @include block-table-parent;
 
@@ -39,19 +39,21 @@
 
     td:nth-child(2),
     th:nth-child(2) {
+      font-weight: 400;
+
       width: 20%;
     };
 
     td:nth-child(3),
     th:nth-child(3) {
-      font-weight: 500;
-
       width: 70%;
 
       text-align: right;
     }
 
     td:nth-child(3) {
+      font-weight: 500;
+
       color: $color-secondary-dark;
     }
   }

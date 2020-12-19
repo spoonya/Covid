@@ -34,6 +34,12 @@ interface CovidInfo {
   readonly Global: CovidInfoGlobal;
 }
 
+interface CovidHistory {
+  readonly cases: {};
+  readonly deathes: {};
+  readonly recovered: {};
+}
+
 class ApiData {
   public getCountriesInfo = async (url: string): Promise<CountriesInfo[]> => {
     try {
@@ -50,6 +56,17 @@ class ApiData {
     try {
       const res = await fetch(url);
       const data: CovidInfo = await res.json();
+
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  public getCovidHistory = async (url: string): Promise<CovidHistory> => {
+    try {
+      const res = await fetch(url);
+      const data: CovidHistory = await res.json();
 
       return data;
     } catch (error) {

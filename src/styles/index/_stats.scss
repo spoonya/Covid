@@ -18,9 +18,12 @@
       text-align: center;
     }
 
-    td:nth-child(3),
     td:nth-child(2) {
       color: $color-secondary-dark;
+    }
+
+    td:nth-child(3) {
+      color: $color-tertiary-dark;
     }
 
     td:nth-child(4) {
@@ -32,19 +35,11 @@
     @include block-title;
   }
 
-  &__subtitle {
-    font-size: 1.8rem;
-    font-weight: 500;
-  }
-
-  &__number {
-    font-size: 2.5rem;
-    font-weight: 500;
-  }
-
-  &__graph {
+  &__chart {
     @include block-item;
 
-    flex: 3 1;
+    position: relative;
+
+    flex: 2 1;
   }
 }
