@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 /// <reference path="../../../node_modules/@types/leaflet/index.d.ts" />
 
 import 'leaflet/dist/leaflet.css';
