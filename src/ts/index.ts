@@ -3,7 +3,7 @@ import prettifyNumber from './helpers/pretiffy.number.helper';
 import { ApiData } from './data/api.data';
 import API_REQUESTS from './constants/api.requests.const';
 import DOM from './constants/dom.const';
-import GlobalCasesComponent from './components/cases.global.component';
+import SearchComponent from './components/search.component';
 import DateComponent from './components/date.component';
 import CountriesCountComponent from './components/countries.count.component';
 import CasesTableComponent from './components/cases.table.component';
@@ -13,7 +13,7 @@ import Map from './components/map.component';
 
 const init = async (): Promise<void> => {
   const data = new ApiData();
-  const globalCases = new GlobalCasesComponent(DOM.htmlElements.cases!, DOM.attributes.casesGlobal);
+  const search = new SearchComponent(DOM.htmlElements.cases!, DOM.attributes.search);
   const date = new DateComponent(DOM.htmlElements.cases!, DOM.attributes.date);
   const countriesCount = new CountriesCountComponent(DOM.htmlElements.world!, DOM.attributes.countriesCount);
   const casesTable = new CasesTableComponent(DOM.htmlElements.casesTable!);
@@ -26,7 +26,6 @@ const init = async (): Promise<void> => {
   const covidHistory = await data.getCovidHistory(API_REQUESTS.history);
 
   date.setDate(covidSummary.updated);
-  globalCases.setCases(prettifyNumber(covidSummary.cases));
   countriesCount.setCountriesCount(covidSummary.affectedCountries);
   casesTable.fillTable(covidCountries);
   statsTable.fillTable(covidSummary);

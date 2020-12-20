@@ -9,7 +9,7 @@ interface Dom {
     readonly stats: HTMLElement | null;
   };
   readonly attributes: {
-    readonly casesGlobal: string;
+    readonly search: string;
     readonly date: string;
     readonly countriesCount: string;
     readonly chart: string;
@@ -30,7 +30,7 @@ const DOM: Dom = {
     stats: document.querySelector('.stats'),
   },
   attributes: {
-    casesGlobal: '[data-cases-number]',
+    search: '[data-search]',
     date: '[data-date-updated]',
     countriesCount: '[data-countries-count]',
     chart: '[data-chart]',

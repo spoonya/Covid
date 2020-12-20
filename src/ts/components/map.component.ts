@@ -55,7 +55,7 @@ export default class Map {
           radius: markerRadius,
         })
           .addTo(this.totalMarkers)
-          .bindPopup(`<b>Total cases:</b> ${prettifyNumber(country.cases)}`);
+          .bindPopup(`<b>${country.country}</b><br> <b>Total cases:</b> ${prettifyNumber(country.cases)}`);
       }),
     );
 

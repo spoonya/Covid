@@ -51,6 +51,11 @@ input {
   background: none;
 }
 
+::placeholder {
+  opacity: .6;
+  color: $color-primary-light;
+}
+
 input[type='button'] {
   padding: 0;
 

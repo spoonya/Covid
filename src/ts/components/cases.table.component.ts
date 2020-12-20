@@ -13,10 +13,8 @@ export default class CasesTableComponent {
     const newArray: any[][] = [];
 
     for (let i = 0; i < countriesLength; i++) {
-      newArray[i] = [];
       const flagImg = `<img src="${covidCountries[i].countryInfo.flag}" alt="Flag of ${covidCountries[i].country}">`;
-
-      newArray[i].push(flagImg, covidCountries[i].country, covidCountries[i].cases);
+      newArray[i] = [flagImg, covidCountries[i].country, covidCountries[i].cases];
     }
 
     return newArray;

@@ -3,10 +3,23 @@
 
   flex: 3 1;
 
-  &__map {
+  &__map-wrapper {
     @include block-item;
 
     flex: 1 1;
+
+    padding: 0;
+  }
+
+  &__map {
+    width: 100%;
+    height: 100%;
+
+    filter: brightness(.95) invert(1) contrast(1) hue-rotate(200deg) saturate(1.25) brightness(1.1);
+  }
+
+  .leaflet-grab {
+    cursor: default;
   }
 
   &__cases {
