@@ -67,6 +67,7 @@ export default class TableComponent {
   };
 
   public render = (container: HTMLElement): void => {
+    container.innerHTML = '';
     container.append(this.table);
   };
 }

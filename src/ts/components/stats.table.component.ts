@@ -1,5 +1,5 @@
 import TableComponent from './table.component';
-import * as Covid from '../data/api.data';
+import * as Api from '../data/api.data';
 
 export default class StatsTableComponent {
   private parent!: HTMLElement;
@@ -8,14 +8,35 @@ export default class StatsTableComponent {
     this.parent = parent;
   }
 
-  private createGlobalDataArray = (covidObject: Covid.CovidSummary): any[][] => {
+  private createDefaultDataArray = (covidObject: Api.CovidSummary): any[][] => {
     return [['Global', covidObject.cases, covidObject.deaths, covidObject.recovered]];
   };
 
-  public fillTable = (covidInfo: Covid.CovidSummary): void => {
-    const covidCountries = covidInfo;
-    const dataArray = this.createGlobalDataArray(covidCountries);
+  private createFilteredDataArray = (covidCountries: Api.CovidCountries[]): any[][] => {
+    const countriesLength = covidCountries.length;
+    const newArray: any[][] = [];
 
-    new TableComponent(dataArray, ['Country', 'Cases', 'Deaths', 'Recovered']).render(this.parent);
+    for (let i = 0; i < countriesLength; i++) {
+      newArray[i] = [
+        covidCountries[i].country,
+        covidCountries[i].cases,
+        covidCountries[i].deaths,
+        covidCountries[i].recovered,
+      ];
+    }
+
+    return newArray;
+  };
+
+  public fillTableDefault = (summary: Api.CovidSummary): void => {
+    const data = this.createDefaultDataArray(summary);
+
+    new TableComponent(data, ['Country', 'Cases', 'Deaths', 'Recovered']).render(this.parent);
+  };
+
+  public fillTableFiltered = (countries: Api.CovidCountries[]): void => {
+    const data = this.createFilteredDataArray(countries);
+
+    new TableComponent(data, ['Country', 'Cases', 'Deaths', 'Recovered']).render(this.parent);
   };
 }

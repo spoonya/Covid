@@ -1,5 +1,5 @@
 import TableComponent from './table.component';
-import * as Covid from '../data/api.data';
+import * as Api from '../data/api.data';
 
 export default class CasesTableComponent {
   private parent!: HTMLElement;
@@ -8,7 +8,7 @@ export default class CasesTableComponent {
     this.parent = parent;
   }
 
-  private createDataArray = (covidCountries: Covid.CovidCountries[]): Array<any> => {
+  private createDataArray = (covidCountries: Api.CovidCountries[]): any[][] => {
     const countriesLength = covidCountries.length;
     const newArray: any[][] = [];
 
@@ -20,7 +20,7 @@ export default class CasesTableComponent {
     return newArray;
   };
 
-  public fillTable = (covidInfo: Covid.CovidCountries[]): void => {
+  public fillTable = (covidInfo: Api.CovidCountries[]): void => {
     const covidCountries = covidInfo.slice().sort((a, b) => b.cases - a.cases);
     const dataArray = this.createDataArray(covidCountries);
 

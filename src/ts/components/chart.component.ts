@@ -1,5 +1,5 @@
 import Chart from 'chart.js';
-import * as Covid from '../data/api.data';
+import * as Api from '../data/api.data';
 
 export default class ChartComponent {
   private parent: HTMLElement;
