@@ -91,22 +91,18 @@ export default class Map {
     const req = await fetch('/static/borders.json');
     const borders = await req.json();
 
-    borders.features
-      .filter((feature: Feature) => {
-        const countryInfo = countries.filter(
-          (countryObj) => countryObj.countryInfo.iso3 === feature.properties.ISO3,
-        )[0];
-        return !!countryInfo;
-      })
-      .forEach((feature: Feature) => {
-        const countryInfo = countries.filter(
-          (countryObj) => countryObj.countryInfo.iso3 === feature.properties.ISO3,
-        )[0];
+    borders.features = borders.features.filter((feature: Feature) => {
+      const countryInfo = countries.filter((countryObj) => countryObj.countryInfo.iso3 === feature.properties.ISO3)[0];
+      return !!countryInfo;
+    });
 
-        feature.properties.units = 'Cases';
-        feature.properties.count = prettifyNumber(countryInfo.cases);
-        feature.properties.saturation = 100 - (Math.log2(countryInfo.cases) / maxCases) * 100;
-      });
+    borders.features.forEach((feature: Feature) => {
+      const countryInfo = countries.filter((countryObj) => countryObj.countryInfo.iso3 === feature.properties.ISO3)[0];
+
+      feature.properties.units = 'Cases';
+      feature.properties.count = prettifyNumber(countryInfo.cases);
+      feature.properties.saturation = 100 - (Math.log2(countryInfo.cases) / maxCases) * 100;
+    });
 
     this.borderLayer.addData(borders);
 
