@@ -186,7 +186,8 @@ const config = {
       },
     }),
     new CopyWebpackPlugin([
-      { from: './src/static', to: './' },
+      { from: './src/static/', to: 'static' },
+      // { from: './src/static', to: './' },
       // { from: './src/assets/img/category', to: './assets/img/category' },
     ]),
   ],
