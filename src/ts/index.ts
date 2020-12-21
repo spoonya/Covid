@@ -19,7 +19,7 @@ const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
 const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
 const map = new Map(DOM.htmlElements.map!);
 
-export { casesTable, statsTable };
+export { casesTable, statsTable, chart, data };
 
 const init = async (): Promise<void> => {
   const covidSummary = await data.getCovidSummary(API_REQUESTS.summary);
@@ -27,11 +27,11 @@ const init = async (): Promise<void> => {
   const covidHistory = await data.getCovidHistory(API_REQUESTS.history);
 
   date.setDate(covidSummary.updated);
-  search.initSearching(covidSummary, covidCountries);
   countriesCount.setCountriesCount(covidSummary.affectedCountries);
   casesTable.fillTable(covidCountries);
   statsTable.fillTableDefault(covidSummary);
   chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
+  search.initSearch(covidSummary, covidCountries);
   map.init();
 };
 

@@ -4,6 +4,11 @@ export interface CovidHistory {
   readonly recovered: {};
 }
 
+export interface CovidCountryHistory {
+  readonly country: string;
+  readonly timeline: CovidHistory;
+}
+
 export interface CovidSummary {
   readonly updated: Date;
   readonly cases: number;
@@ -45,7 +50,7 @@ export interface CovidCountries {
   readonly todayCases: number;
   readonly deaths: number;
   readonly todayDeaths: number;
-  readonly recovered: number;
+  recovered: number | string;
   readonly todayRecovered: number;
   readonly active: number;
   readonly critical: number;
@@ -90,6 +95,17 @@ export class ApiData {
     try {
       const res = await fetch(url);
       const data: CovidHistory = await res.json();
+
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  public getCovidCountryHistory = async (url: string): Promise<CovidCountryHistory> => {
+    try {
+      const res = await fetch(url);
+      const data: CovidCountryHistory = await res.json();
 
       return data;
     } catch (error) {

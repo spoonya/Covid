@@ -32,6 +32,28 @@
   &__table {
     @include block-table-wrapper;
 
+    tr {
+      cursor: pointer;
+      user-select: none;
+      transition: background-color .1s linear;
+
+      &:hover {
+        background-color: darken($color-primary-dark, 6);
+
+        td:nth-child(3) {
+          color: $color-primary-light;
+        }
+      }
+    }
+
+    tr.active {
+      background-color: darken($color-secondary-dark, 5);
+
+      td:nth-child(3) {
+        color: $color-primary-light;
+      }
+    }
+
     td:nth-child(1),
     th:nth-child(1) {
       width: 20%;
