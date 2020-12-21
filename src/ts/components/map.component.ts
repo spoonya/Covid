@@ -3,7 +3,6 @@
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import * as Api from '../data/api.data';
-import REQUESTS from '../constants/api.requests.const';
 import prettifyNumber from '../helpers/pretiffy.number.helper';
 
 interface FeatureProps {
@@ -77,9 +76,9 @@ export default class Map {
   }
 
   async update(): Promise<void> {
-    this.borderLayer.clearLayers();
+    const countries = await ApiData.getCovidCountries();
 
-    const countries = await ApiData.getCovidCountries(REQUESTS.countries);
+    this.borderLayer.clearLayers();
 
     const maxCases = Math.log2(
       Math.max.apply(

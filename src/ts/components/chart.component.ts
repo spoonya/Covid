@@ -1,16 +1,23 @@
 import Chart from 'chart.js';
-import * as Api from '../data/api.data';
+import { data } from '../index';
 
 export default class ChartComponent {
   private parent: HTMLElement;
 
   private chartAttr: string;
 
-  private chart!: HTMLCanvasElement | null;
+  private chartContainer!: HTMLCanvasElement | null;
 
   private chartCtx!: any;
 
-  public covidChart!: Chart;
+  public chart!: Chart;
+
+  public chartCfg = {
+    cases: {},
+    deathes: {},
+    recovered: {},
+    default: {},
+  };
 
   constructor(parent: HTMLElement, chartAttr: string) {
     this.parent = parent;
@@ -23,13 +30,13 @@ export default class ChartComponent {
                               </div>`;
 
     this.parent?.insertAdjacentHTML('beforeend', component);
-    this.chart = document.querySelector(this.chartAttr);
-    this.chartCtx = this.chart?.getContext('2d');
+    this.chartContainer = document.querySelector(this.chartAttr);
+    this.chartCtx = this.chartContainer?.getContext('2d');
 
     Chart.defaults.global.defaultFontFamily = 'Heebo, sans-serif';
     Chart.defaults.global.defaultFontSize = 14;
 
-    this.covidChart = new Chart(this.chartCtx, {
+    this.chart = new Chart(this.chartCtx, {
       type: 'line',
       data: {
         labels: labelsArray,
@@ -70,7 +77,12 @@ export default class ChartComponent {
           yAxes: [
             {
               ticks: {
-                callback: (value: number) => `${value / 10e5}M`,
+                callback: (value: number) => {
+                  if (value >= 1000000) {
+                    return `${value / 10e5}M`;
+                  }
+                  return `${value / 10e2}K`;
+                },
                 fontColor: '#bcbcbc',
                 fontSize: 14,
                 beginAtZero: true,
@@ -104,5 +116,31 @@ export default class ChartComponent {
         },
       },
     });
+  };
+
+  public updateByMutating = async (country?: string): Promise<void> => {
+    const dataArray: any = country
+      ? (await data.getCovidCountryHistory(country)).timeline.cases
+      : (await data.getCovidHistory()).cases;
+
+    const dataCases: number[] = Object.values(dataArray);
+
+    this.chart.data.datasets = [
+      {
+        label: 'Cases',
+        data: dataCases,
+        backgroundColor: '#bb86fc',
+        pointBackgroundColor: '#bb86fc',
+        borderWidth: 0,
+        hoverBorderWidth: 0,
+        hoverBorderColor: '#fff',
+        fill: false,
+        lineTension: 0,
+        pointRadius: 4,
+        pointHoverRadius: 8,
+      },
+    ];
+
+    this.chart.update();
   };
 }

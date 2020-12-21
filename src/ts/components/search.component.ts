@@ -1,10 +1,13 @@
 import * as Api from '../data/api.data';
-import { casesTable, statsTable } from '../index';
+import { casesTable, statsTable, chart } from '../index';
+import DOM from '../constants/dom.const';
 
 export default class SearchComponent {
   private parent!: HTMLElement;
 
   private searchAttr: string;
+
+  private activeRow!: HTMLElement | null;
 
   constructor(parent: HTMLElement, searchAttr: string) {
     this.parent = parent;
@@ -14,21 +17,26 @@ export default class SearchComponent {
 
   private init = (): void => {
     const component: string = `<div class="cases__search">
-                                <h2 class="cases__title">Searching</h2>
+                                <h2 class="cases__title" spellcheck="false">Search</h2>
                                 <input class="cases__input" ${this.searchAttr.slice(1, -1)}
                                   type="text" placeholder="Country">
                               </div>`;
     this.parent?.insertAdjacentHTML('afterbegin', component);
   };
 
-  private search = (value: string, data: Api.CovidCountries[]): any[] => {
-    const filteredData: any[] = [];
+  private search = (value: string, data: Api.CovidCountries[], isStrict: boolean = false): Api.CovidCountries[] => {
+    const filteredData: Api.CovidCountries[] = [];
+    const dataLength = data.length;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < dataLength; i++) {
       value = value.toLowerCase();
       const country = data[i].country.toLowerCase();
 
-      if (country.includes(value)) {
+      if (isStrict) {
+        if (country === value) {
+          filteredData.push(data[i]);
+        }
+      } else if (country.includes(value)) {
         filteredData.push(data[i]);
       }
     }
@@ -36,10 +44,32 @@ export default class SearchComponent {
     return filteredData;
   };
 
-  public initSearching = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
+  private addClickEvtToTable = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void =>
+    DOM.htmlElements.casesTable?.querySelectorAll('tr').forEach((row: HTMLElement) => {
+      row.addEventListener('click', () => {
+        const { id } = row;
+
+        if (!this.activeRow || (this.activeRow && this.activeRow !== row)) {
+          const data = this.search(id!, countries, true);
+
+          statsTable.fillTableFiltered(data);
+          chart.updateByMutating(id);
+          this.activeRow?.classList.remove(DOM.classes.active);
+          row.classList.add(DOM.classes.active);
+          this.activeRow = row;
+        } else {
+          statsTable.fillTableDefault(summary);
+          chart.updateByMutating();
+          this.activeRow.classList.remove(DOM.classes.active);
+          this.activeRow = null;
+        }
+      });
+    });
+
+  private addKeyupEvtToInput = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
     const input: any = this.parent.querySelector(this.searchAttr);
 
-    input?.addEventListener('keyup', () => {
+    input.addEventListener('keyup', () => {
       const { value } = input;
       const dataCases = this.search(value, countries);
       const dataStats = this.search(value, countries);
@@ -51,6 +81,13 @@ export default class SearchComponent {
       } else {
         statsTable.fillTableDefault(summary);
       }
+
+      this.addClickEvtToTable(summary, countries);
     });
+  };
+
+  public initSearch = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
+    this.addClickEvtToTable(summary, countries);
+    this.addKeyupEvtToInput(summary, countries);
   };
 }

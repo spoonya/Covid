@@ -16,9 +16,12 @@ export default class TableComponent {
 
   private dataArray: any[][] = [];
 
-  constructor(dataArray: any[][], headerArray?: string[]) {
+  private idColIndex: number;
+
+  constructor(dataArray: any[][], idColIndex: number, headerArray?: string[]) {
     this.headerArray = headerArray;
     this.dataArray = dataArray;
+    this.idColIndex = idColIndex;
     this.createTable();
   }
 
@@ -42,6 +45,7 @@ export default class TableComponent {
 
     for (let i = 0; i < dataArrayLength; i++) {
       this.row = document.createElement('tr');
+      this.row.id = this.dataArray[i][this.idColIndex];
 
       for (let j = 0; j < this.dataArray[i].length; j++) {
         this.col = document.createElement('td');

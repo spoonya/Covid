@@ -1,6 +1,5 @@
 import '../styles/style.scss';
 import { ApiData } from './data/api.data';
-import API_REQUESTS from './constants/api.requests.const';
 import DOM from './constants/dom.const';
 import SearchComponent from './components/search.component';
 import DateComponent from './components/date.component';
@@ -19,19 +18,19 @@ const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
 const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
 const map = new Map(DOM.htmlElements.map!);
 
-export { casesTable, statsTable };
+export { casesTable, statsTable, chart, data };
 
 const init = async (): Promise<void> => {
-  const covidSummary = await data.getCovidSummary(API_REQUESTS.summary);
-  const covidCountries = await data.getCovidCountries(API_REQUESTS.countries);
-  const covidHistory = await data.getCovidHistory(API_REQUESTS.history);
+  const covidSummary = await data.getCovidSummary();
+  const covidCountries = await data.getCovidCountries();
+  const covidHistory = await data.getCovidHistory();
 
   date.setDate(covidSummary.updated);
-  search.initSearching(covidSummary, covidCountries);
   countriesCount.setCountriesCount(covidSummary.affectedCountries);
   casesTable.fillTable(covidCountries);
   statsTable.fillTableDefault(covidSummary);
   chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
+  search.initSearch(covidSummary, covidCountries);
   map.init();
 };
 

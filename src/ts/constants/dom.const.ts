@@ -16,6 +16,7 @@ interface Dom {
   };
   readonly classes: {
     readonly table: string;
+    readonly active: string;
   };
 }
 
@@ -37,6 +38,7 @@ const DOM: Dom = {
   },
   classes: {
     table: 'table',
+    active: 'active',
   },
 };
 

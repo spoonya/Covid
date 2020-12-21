@@ -4,6 +4,8 @@ import * as Api from '../data/api.data';
 export default class CasesTableComponent {
   private parent!: HTMLElement;
 
+  private rowIdIndex: number = 1;
+
   constructor(parent: HTMLElement) {
     this.parent = parent;
   }
@@ -24,6 +26,6 @@ export default class CasesTableComponent {
     const covidCountries = covidInfo.slice().sort((a, b) => b.cases - a.cases);
     const dataArray = this.createDataArray(covidCountries);
 
-    new TableComponent(dataArray).render(this.parent);
+    new TableComponent(dataArray, this.rowIdIndex).render(this.parent);
   };
 }
