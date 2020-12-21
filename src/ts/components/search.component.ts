@@ -47,19 +47,19 @@ export default class SearchComponent {
   private addClickEvtToTable = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void =>
     DOM.htmlElements.casesTable?.querySelectorAll('tr').forEach((row: HTMLElement) => {
       row.addEventListener('click', () => {
-        const { id } = row;
+        const country = row.id;
 
         if (!this.activeRow || (this.activeRow && this.activeRow !== row)) {
-          const data = this.search(id!, countries, true);
+          const data = this.search(country!, countries, true);
 
           statsTable.fillTableFiltered(data);
-          chart.updateByMutating(id);
+          chart.updateChart(country);
           this.activeRow?.classList.remove(DOM.classes.active);
           row.classList.add(DOM.classes.active);
           this.activeRow = row;
         } else {
           statsTable.fillTableDefault(summary);
-          chart.updateByMutating();
+          chart.updateChart();
           this.activeRow.classList.remove(DOM.classes.active);
           this.activeRow = null;
         }

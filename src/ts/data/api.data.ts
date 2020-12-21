@@ -1,6 +1,6 @@
 export interface CovidHistory {
   readonly cases: {};
-  readonly deathes: {};
+  readonly deaths: {};
   readonly recovered: {};
 }
 
