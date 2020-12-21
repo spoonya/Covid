@@ -1,6 +1,5 @@
 import Chart from 'chart.js';
 import { data } from '../index';
-import API_REQUESTS from '../constants/api.requests.const';
 
 export default class ChartComponent {
   private parent: HTMLElement;
@@ -17,6 +16,7 @@ export default class ChartComponent {
     cases: {},
     deathes: {},
     recovered: {},
+    default: {},
   };
 
   constructor(parent: HTMLElement, chartAttr: string) {
@@ -120,8 +120,8 @@ export default class ChartComponent {
 
   public updateByMutating = async (country?: string): Promise<void> => {
     const dataArray: any = country
-      ? (await data.getCovidCountryHistory(API_REQUESTS.getCountryHistoryUrl(country))).timeline.cases
-      : (await data.getCovidHistory(API_REQUESTS.history)).cases;
+      ? (await data.getCovidCountryHistory(country)).timeline.cases
+      : (await data.getCovidHistory()).cases;
 
     const dataCases: number[] = Object.values(dataArray);
 

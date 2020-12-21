@@ -1,6 +1,5 @@
 import '../styles/style.scss';
 import { ApiData } from './data/api.data';
-import API_REQUESTS from './constants/api.requests.const';
 import DOM from './constants/dom.const';
 import SearchComponent from './components/search.component';
 import DateComponent from './components/date.component';
@@ -22,9 +21,9 @@ const map = new Map(DOM.htmlElements.map!);
 export { casesTable, statsTable, chart, data };
 
 const init = async (): Promise<void> => {
-  const covidSummary = await data.getCovidSummary(API_REQUESTS.summary);
-  const covidCountries = await data.getCovidCountries(API_REQUESTS.countries);
-  const covidHistory = await data.getCovidHistory(API_REQUESTS.history);
+  const covidSummary = await data.getCovidSummary();
+  const covidCountries = await data.getCovidCountries();
+  const covidHistory = await data.getCovidHistory();
 
   date.setDate(covidSummary.updated);
   countriesCount.setCountriesCount(covidSummary.affectedCountries);

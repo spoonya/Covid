@@ -69,9 +69,9 @@ export interface CovidCountries {
 }
 
 export class ApiData {
-  public getCovidCountries = async (url: string): Promise<CovidCountries[]> => {
+  public getCovidCountries = async (): Promise<CovidCountries[]> => {
     try {
-      const res = await fetch(url);
+      const res = await fetch('https://disease.sh/v3/covid-19/countries');
       const data: CovidCountries[] = await res.json();
 
       return data;
@@ -80,9 +80,9 @@ export class ApiData {
     }
   };
 
-  public getCovidSummary = async (url: string): Promise<CovidSummary> => {
+  public getCovidSummary = async (): Promise<CovidSummary> => {
     try {
-      const res = await fetch(url);
+      const res = await fetch('https://disease.sh/v3/covid-19/all');
       const data: CovidSummary = await res.json();
 
       return data;
@@ -91,9 +91,9 @@ export class ApiData {
     }
   };
 
-  public getCovidHistory = async (url: string): Promise<CovidHistory> => {
+  public getCovidHistory = async (): Promise<CovidHistory> => {
     try {
-      const res = await fetch(url);
+      const res = await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=366');
       const data: CovidHistory = await res.json();
 
       return data;
@@ -102,9 +102,9 @@ export class ApiData {
     }
   };
 
-  public getCovidCountryHistory = async (url: string): Promise<CovidCountryHistory> => {
+  public getCovidCountryHistory = async (country: string): Promise<CovidCountryHistory> => {
     try {
-      const res = await fetch(url);
+      const res = await fetch(`https://disease.sh/v3/covid-19/historical/${country}?lastdays=366`);
       const data: CovidCountryHistory = await res.json();
 
       return data;
