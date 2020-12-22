@@ -7,12 +7,15 @@ interface Dom {
     readonly casesTable: HTMLElement | null;
     readonly statsTable: HTMLElement | null;
     readonly stats: HTMLElement | null;
+    readonly switches: HTMLElement | null;
   };
   readonly attributes: {
     readonly search: string;
     readonly date: string;
     readonly countriesCount: string;
     readonly chart: string;
+    readonly switchDays: string;
+    readonly switchRate: string;
   };
   readonly classes: {
     readonly table: string;
@@ -28,12 +31,15 @@ const DOM: Dom = {
     map: document.querySelector('.world__map'),
     casesTable: document.querySelector('.cases__table'),
     statsTable: document.querySelector('.stats__table'),
+    switches: document.querySelector('.switches'),
     stats: document.querySelector('.stats'),
   },
   attributes: {
     search: '[data-search]',
     date: '[data-date-updated]',
     countriesCount: '[data-countries-count]',
+    switchDays: '[data-switch-days]',
+    switchRate: '[data-switch-rate]',
     chart: '[data-chart]',
   },
   classes: {

@@ -89,6 +89,12 @@ body {
   color: $color-primary-light;
 }
 
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
 .page {
   display: flex;
   flex-direction: column;

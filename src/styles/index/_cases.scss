@@ -24,7 +24,8 @@
 
   &__countries {
     @include block-item;
-    @include block-table-parent;
+
+@include block-table-parent;
 
     flex: 2 1;
   }

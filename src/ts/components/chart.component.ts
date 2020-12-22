@@ -73,7 +73,7 @@ export default class ChartComponent {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         title: {
           fontColor: '#fff',
           display: true,

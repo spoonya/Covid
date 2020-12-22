@@ -1,6 +1,4 @@
 .header {
-  padding: 6px 0;
-
   background-color: $color-primary-dark;
 
   &__title {
@@ -14,5 +12,11 @@
     span {
       color: $color-secondary-dark;
     }
+  }
+
+  &__inner {
+    position: relative;
+
+    padding: 6px 0;
   }
 }
