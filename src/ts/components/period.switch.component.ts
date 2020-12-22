@@ -3,7 +3,14 @@ import Swich from './switch.component';
 export default class PeriodSwitch extends Swich {
   constructor(parent: HTMLElement) {
     super(parent, 'ALL', 'LAST', 'days-switch');
-    this.storeValue();
+
+    const value = window.localStorage.getItem('period');
+
+    if (value) {
+      this.input.checked = value === 'LAST';
+    } else {
+      this.storeValue();
+    }
   }
 
   processChange() {

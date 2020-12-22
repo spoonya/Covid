@@ -3,6 +3,14 @@ import Swich from './switch.component';
 export default class RateSwitch extends Swich {
   constructor(parent: HTMLElement) {
     super(parent, 'ABS', '100K', 'rate-switch');
+
+    const value = window.localStorage.getItem('rate');
+
+    if (value) {
+      this.input.checked = value === '100K';
+    } else {
+      this.storeValue();
+    }
   }
 
   processChange() {
