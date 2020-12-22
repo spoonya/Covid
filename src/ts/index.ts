@@ -19,7 +19,6 @@ const casesTable = new CasesTableComponent(DOM.htmlElements.casesTable!);
 const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
 const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
 const map = new Map(DOM.htmlElements.map!);
-
 const rateSwitch = new RateSwitch(DOM.htmlElements.switches!);
 const periodSwitch = new PeriodSwitch(DOM.htmlElements.switches!);
 
