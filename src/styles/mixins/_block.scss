@@ -28,7 +28,11 @@
 }
 
 @mixin block-table-wrapper {
+  @include media-smartphone-lg {
+    max-height: 160px;
+  }
+
   overflow-y: auto;
 
-  max-height: calc(100%-30px);
+  max-height: calc(100%-2.9rem);
 }

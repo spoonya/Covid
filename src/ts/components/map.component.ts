@@ -51,7 +51,7 @@ export default class Map {
     this.borderLayer = L.geoJSON();
 
     this.borderLayer.options.style = (borderFeature) => {
-      const fillColor = `hsl(${borderFeature?.properties.saturation}, 100%, 50%)`;
+      const fillColor = `hsl(${borderFeature?.properties.saturation}, 80%, 40%)`;
 
       return {
         color: 'white',
@@ -100,7 +100,7 @@ export default class Map {
 
       feature.properties.units = 'Cases';
       feature.properties.count = prettifyNumber(countryInfo.cases);
-      feature.properties.saturation = 100 - (Math.log2(countryInfo.cases) / maxCases) * 100;
+      feature.properties.saturation = 110 - (Math.log2(countryInfo.cases) / maxCases) * 100;
     });
 
     this.borderLayer.addData(borders);

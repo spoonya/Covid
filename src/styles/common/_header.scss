@@ -1,7 +1,25 @@
 .header {
   background-color: $color-primary-dark;
+  padding: 6px 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  box-shadow: 0 5px 15px -10px #000;
+
+  @include media-smartphone-lg {
+    padding: 10px 0;
+  }
 
   &__title {
+    @include media-smartphone-lg {
+      font-size: 1.8rem;
+    }
+
+    @include media-smartphone-sm {
+      opacity: 0;
+    }
+
     font-size: 2.5rem;
     font-weight: 900;
 
@@ -15,8 +33,12 @@
   }
 
   &__inner {
-    position: relative;
+    @include media-tablet-lg {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-    padding: 6px 0;
+    position: relative;
   }
 }

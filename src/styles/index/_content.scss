@@ -1,9 +1,36 @@
 .content {
+  @include media-laptop {
+    padding: 10px;
+  }
+
+  @include media-tablet-lg {
+    flex-direction: column;
+  }
+
+  @include media-smartphone-lg {
+    padding: 10px 20px;
+  }
+
   display: flex;
   justify-content: space-between;
 
   width: 100%;
-  min-height: calc(100vh-95px);
+  min-height: calc(100vh-9.5rem);
   margin: 0 auto;
   padding: 5px;
+
+  &__inner {
+    @include media-tablet-lg {
+      max-height: 75vh;
+    }
+
+    @include media-smartphone-sm {
+      flex-direction: column;
+      max-height: 114vh;
+    }
+
+    display: flex;
+    justify-content: space-between;
+    flex: 4 1;
+  }
 }

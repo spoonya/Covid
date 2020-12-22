@@ -1,11 +1,31 @@
 .stats {
+  @include media-tablet-lg {
+    flex-direction: row-reverse;
+  }
+
+  @include media-smartphone-lg {
+    flex-direction: column;
+  }
+
   @include block;
 
   flex: 2 1;
 
   &__global {
+    @include media-tablet-lg {
+      min-width: 300px;
+      max-height: 230px;
+    }
+
+    @include media-smartphone-sm {
+      min-width: 273px;
+    }
+
     @include block-item;
     @include block-table-parent;
+
+    min-height: 89px;
+    min-width: 336px;
 
     flex: 2 1;
   }
@@ -36,10 +56,22 @@
   }
 
   &__chart {
+    @include media-tablet-lg {
+      width: 200px;
+      height: 230px;
+    }
+
+    @include media-smartphone-lg {
+      width: 97.5%;
+      min-height: 250px;
+    }
+
     @include block-item;
 
     position: relative;
 
     flex: 4 1;
+
+    height: 200px;
   }
 }

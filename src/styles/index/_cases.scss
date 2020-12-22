@@ -1,9 +1,22 @@
 .cases {
+  @include media-laptop {
+    min-width: 240px;
+  }
+
+  @include media-tablet-lg {
+    min-width: 217px;
+  }
+
+  @include media-smartphone-lg {
+    max-width: 100%;
+  }
+
+  min-width: 280px;
+  max-width: 20%;
+
   @include block;
 
-  flex: 2 1;
-
-  max-width: 20%;
+  flex: 2 0;
 
   &__search {
     @include block-item;
@@ -25,7 +38,7 @@
   &__countries {
     @include block-item;
 
-@include block-table-parent;
+    @include block-table-parent;
 
     flex: 2 1;
   }
@@ -63,8 +76,6 @@
     td:nth-child(2),
     th:nth-child(2) {
       font-weight: 400;
-
-      width: 20%;
     };
 
     td:nth-child(3),
