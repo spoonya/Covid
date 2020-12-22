@@ -8,7 +8,8 @@ import CasesTableComponent from './components/cases.table.component';
 import StatsTableComponent from './components/stats.table.component';
 import ChartComponent from './components/chart.component';
 import Map from './components/map.component';
-import SwitchDaysComponent from './components/switches.component';
+import RateSwitch from './components/rate.switch.component';
+import PeriodSwitch from './components/period.switch.component';
 
 const data = new ApiData();
 const search = new SearchComponent(DOM.htmlElements.cases!, DOM.attributes.search);
@@ -18,10 +19,12 @@ const casesTable = new CasesTableComponent(DOM.htmlElements.casesTable!);
 const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
 const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
 const map = new Map(DOM.htmlElements.map!);
-const switches = new SwitchDaysComponent(DOM.htmlElements.switches!, [
-  { attr: DOM.attributes.switchDays, title: 'Period' },
-  { attr: DOM.attributes.switchRate, title: 'Rate' },
-]);
+// const switches = new SwitchDaysComponent(DOM.htmlElements.switches!, [
+//   { attr: DOM.attributes.switchDays, title: 'Period' },
+//   { attr: DOM.attributes.switchRate, title: 'Rate' },
+// ]);
+const rateSwitch = new RateSwitch(DOM.htmlElements.switches!);
+const periodSwitch = new PeriodSwitch(DOM.htmlElements.switches!);
 
 export { casesTable, statsTable, chart, data };
 
@@ -37,6 +40,10 @@ const init = async (): Promise<void> => {
   chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
   search.initSearch(covidSummary, covidCountries);
   map.init();
+
+  document.addEventListener('changedata', (e) => {
+    console.log(e.type);
+  });
 };
 
 init();
