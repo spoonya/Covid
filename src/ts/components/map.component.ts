@@ -33,6 +33,10 @@ interface Feature {
   geometry: Geometry;
 }
 
+interface FeatureLayer extends L.Layer {
+  feature: any;
+}
+
 const ApiData = new Api.ApiData();
 
 export default class Map {
@@ -51,7 +55,7 @@ export default class Map {
     this.borderLayer = L.geoJSON();
 
     this.borderLayer.options.style = (borderFeature) => {
-      const fillColor = `hsl(${borderFeature?.properties.saturation}, 80%, 40%)`;
+      const fillColor = `hsl(${borderFeature?.properties.saturation}, 100%, 50%)`;
 
       return {
         color: 'white',
@@ -66,27 +70,13 @@ export default class Map {
     };
   }
 
-  init() {
+  async init() {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     }).addTo(this.map);
 
-    this.update();
-  }
-
-  async update(): Promise<void> {
     const countries = await ApiData.getCovidCountries();
-
-    this.borderLayer.clearLayers();
-
-    const maxCases = Math.log2(
-      Math.max.apply(
-        null,
-        countries.map((country) => country.cases),
-      ),
-    );
-
     const req = await fetch('/static/borders.json');
     const borders = await req.json();
 
@@ -95,16 +85,61 @@ export default class Map {
       return !!countryInfo;
     });
 
-    borders.features.forEach((feature: Feature) => {
-      const countryInfo = countries.filter((countryObj) => countryObj.countryInfo.iso3 === feature.properties.ISO3)[0];
-
-      feature.properties.units = 'Cases';
-      feature.properties.count = prettifyNumber(countryInfo.cases);
-      feature.properties.saturation = 110 - (Math.log2(countryInfo.cases) / maxCases) * 100;
-    });
-
     this.borderLayer.addData(borders);
 
     this.borderLayer.addTo(this.map);
+    this.update();
+
+    document.addEventListener('changedata', this.update.bind(this));
+  }
+
+  async update(): Promise<void> {
+    const rate = window.localStorage.getItem('rate');
+    const period = window.localStorage.getItem('period');
+
+    let units = rate === 'ABS' ? 'cases' : 'cases per 100k people';
+    if (period === 'LAST') units = `new ${units}`;
+
+    const casesKey = period === 'ALL' ? 'cases' : 'todayCases';
+
+    const countries = await ApiData.getCovidCountries();
+    const data = countries.map((item) => {
+      let value = item[casesKey];
+
+      if (rate === '100K' && item.population !== 0) value = Math.ceil((value * 10e5) / item.population) / 10 || 0;
+      if (item.population === 0) value = 0;
+
+      return {
+        name: item.country,
+        iso3: item.countryInfo.iso3,
+        value,
+      };
+    });
+
+    const maxCases = Math.log1p(
+      Math.max.apply(
+        null,
+        data.map((country) => country.value),
+      ),
+    );
+
+    this.borderLayer.eachLayer((layer) => {
+      const currentLayer = layer as FeatureLayer;
+      const countryName = currentLayer.feature.properties.ISO3;
+      const country = data.filter((countryObj) => countryObj.iso3 === countryName)[0];
+
+      const saturation = 100 - (Math.log1p(country.value) / maxCases) * 100;
+      const popupText = `
+      <b>Country: </b>${currentLayer.feature.properties.NAME}<br>
+      <b>${units}: </b> ${prettifyNumber(country.value)}
+      `;
+
+      (layer as L.Path).setStyle({
+        color: 'white',
+        fillColor: `hsl(${saturation}, 100%, 50%)`,
+      });
+      layer.unbindPopup();
+      layer.bindPopup(popupText);
+    });
   }
 }

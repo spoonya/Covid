@@ -12,6 +12,8 @@ import RateSwitch from './components/rate.switch.component';
 import PeriodSwitch from './components/period.switch.component';
 
 const data = new ApiData();
+const rateSwitch = new RateSwitch(DOM.htmlElements.switches!);
+const periodSwitch = new PeriodSwitch(DOM.htmlElements.switches!);
 const search = new SearchComponent(DOM.htmlElements.cases!, DOM.attributes.search);
 const date = new DateComponent(DOM.htmlElements.cases!, DOM.attributes.date);
 const countriesCount = new CountriesCountComponent(DOM.htmlElements.world!, DOM.attributes.countriesCount);
@@ -19,8 +21,6 @@ const casesTable = new CasesTableComponent(DOM.htmlElements.casesTable!);
 const statsTable = new StatsTableComponent(DOM.htmlElements.statsTable!);
 const chart = new ChartComponent(DOM.htmlElements.stats!, DOM.attributes.chart);
 const map = new Map(DOM.htmlElements.map!);
-const rateSwitch = new RateSwitch(DOM.htmlElements.switches!);
-const periodSwitch = new PeriodSwitch(DOM.htmlElements.switches!);
 
 export { casesTable, statsTable, chart, data };
 
@@ -35,11 +35,7 @@ const init = async (): Promise<void> => {
   statsTable.fillTableDefault(covidSummary);
   chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
   search.initSearch(covidSummary, covidCountries);
-  map.init();
-
-  document.addEventListener('changedata', (e) => {
-    console.log(e.type);
-  });
+  await map.init();
 };
 
 init();
