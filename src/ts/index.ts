@@ -37,14 +37,6 @@ const init = async (): Promise<void> => {
   search.initSearch(covidSummary, covidCountries);
   await map.init();
   map.init();
-
-  document.addEventListener('changedata', () => {
-    if (localStorage.getItem('period') === 'ALL') {
-      statsTable.fillTableDefaultAll(covidSummary);
-    } else {
-      statsTable.fillTableDefaultLast(covidSummary);
-    }
-  });
 };
 
 init();
