@@ -14,6 +14,7 @@ interface Dom {
     readonly date: string;
     readonly countriesCount: string;
     readonly chart: string;
+    readonly chartList: string;
     readonly switchDays: string;
     readonly switchRate: string;
   };
@@ -41,6 +42,7 @@ const DOM: Dom = {
     switchDays: '[data-switch-days]',
     switchRate: '[data-switch-rate]',
     chart: '[data-chart]',
+    chartList: '[data-chart-list]',
   },
   classes: {
     table: 'table',

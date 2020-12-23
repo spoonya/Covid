@@ -1,6 +1,6 @@
-import Swich from './switch.component';
+import Switch from './switch.component';
 
-export default class RateSwitch extends Swich {
+export default class RateSwitch extends Switch {
   constructor(parent: HTMLElement) {
     super(parent, 'ABS', '100K', 'rate-switch');
 

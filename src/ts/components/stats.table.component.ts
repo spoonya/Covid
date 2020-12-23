@@ -12,11 +12,15 @@ export default class StatsTableComponent {
     this.parent = parent;
   }
 
-  private createDefaultDataArray = (covidObject: Api.CovidSummary): any[][] => {
+  private createDefaultAllData = (covidObject: Api.CovidSummary): any[][] => {
     return [['Global', covidObject.cases, covidObject.deaths, covidObject.recovered]];
   };
 
-  private createFilteredDataArray = (countries: Api.CovidCountries[]): any[][] => {
+  private createDefaultLastData = (covidObject: Api.CovidSummary): any[][] => {
+    return [['Global', covidObject.todayCases, covidObject.todayDeaths, covidObject.todayRecovered]];
+  };
+
+  private createFilteredDataAll = (countries: Api.CovidCountries[]): any[][] => {
     const countriesCopy = countries.slice();
     const covidArrayLength = countries.length;
     const newArray: any[][] = [];
@@ -37,14 +41,20 @@ export default class StatsTableComponent {
     return newArray;
   };
 
-  public fillTableDefault = (summary: Api.CovidSummary): void => {
-    const data = this.createDefaultDataArray(summary);
+  public fillTableDefaultAll = (summary: Api.CovidSummary): void => {
+    const data = this.createDefaultAllData(summary);
 
     new TableComponent(data, this.rowIdIndex, this.header).render(this.parent);
   };
 
-  public fillTableFiltered = (countries: Api.CovidCountries[]): void => {
-    const data = this.createFilteredDataArray(countries);
+  public fillTableDefaultLast = (summary: Api.CovidSummary): void => {
+    const data = this.createDefaultLastData(summary);
+
+    new TableComponent(data, this.rowIdIndex, this.header).render(this.parent);
+  };
+
+  public fillTableFilteredAll = (countries: Api.CovidCountries[]): void => {
+    const data = this.createFilteredDataAll(countries);
 
     new TableComponent(data, this.rowIdIndex, this.header).render(this.parent);
   };

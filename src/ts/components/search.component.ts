@@ -52,13 +52,13 @@ export default class SearchComponent {
         if (!this.activeRow || (this.activeRow && this.activeRow !== row)) {
           const data = this.search(country!, countries, true);
 
-          statsTable.fillTableFiltered(data);
+          statsTable.fillTableFilteredAll(data);
           chart.updateChart(country);
           this.activeRow?.classList.remove(DOM.classes.active);
           row.classList.add(DOM.classes.active);
           this.activeRow = row;
         } else {
-          statsTable.fillTableDefault(summary);
+          statsTable.fillTableDefaultAll(summary);
           chart.updateChart();
           this.activeRow.classList.remove(DOM.classes.active);
           this.activeRow = null;
@@ -77,9 +77,9 @@ export default class SearchComponent {
       casesTable.fillTable(dataCases);
 
       if (value) {
-        statsTable.fillTableFiltered(dataStats);
+        statsTable.fillTableFilteredAll(dataStats);
       } else {
-        statsTable.fillTableDefault(summary);
+        statsTable.fillTableDefaultAll(summary);
       }
 
       this.addClickEvtToTable(summary, countries);
