@@ -82,7 +82,7 @@
     overflow: hidden;
 
     position: absolute;
-
+    top: 6px;
     left: 50%;
 
     font-weight: 500;
@@ -100,8 +100,8 @@
     color: $color-primary-dark;
     border: 1px solid #aaa;
     border-radius: 2px;
-    // outline: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    background-color: darken($color-primary-light, 3);
 
     -moz-appearance: button;
     -webkit-padding-end: 20px;

@@ -27,24 +27,17 @@ export { casesTable, statsTable, chart, data };
 const init = async (): Promise<void> => {
   const covidSummary = await data.getCovidSummary();
   const covidCountries = await data.getCovidCountries();
-  const covidHistory = await data.getCovidHistory();
 
   date.setDate(covidSummary.updated);
   countriesCount.setCountriesCount(covidSummary.affectedCountries);
   casesTable.fillTable(covidCountries);
   statsTable.fillTableDefaultAll(covidSummary);
-  chart.initChart(Object.values(covidHistory.cases), Object.keys(covidHistory.cases));
+  chart.initChart();
   search.initSearch(covidSummary, covidCountries);
   await map.init();
   map.init();
 
-  document.addEventListener('changedata', () => {
-    if (localStorage.getItem('period') === 'ALL') {
-      statsTable.fillTableDefaultAll(covidSummary);
-    } else {
-      statsTable.fillTableDefaultLast(covidSummary);
-    }
-  });
+  document.addEventListener('changedata', () => {});
 };
 
 init();
