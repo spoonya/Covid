@@ -8,13 +8,15 @@ interface ChartCfg {
   readonly recovered?: string;
   dataArray?: number[];
   color?: string;
-  title?: string;
+  country?: string;
 }
 
 export default class ChartComponent {
   private parent: HTMLElement;
 
   private chartAttr: string;
+
+  private listAttr: string;
 
   private chartContainer!: HTMLCanvasElement | null;
 
@@ -24,6 +26,7 @@ export default class ChartComponent {
 
   private chartType: ChartCfg = {
     lastUpdType: 'cases',
+    country: '',
     cases: 'cases',
     deaths: 'deaths',
     recovered: 'recovered',
@@ -32,21 +35,27 @@ export default class ChartComponent {
   private chartParamUpd: ChartCfg = {
     dataArray: [],
     color: '',
-    title: '',
   };
 
-  constructor(parent: HTMLElement, chartAttr: string) {
+  constructor(parent: HTMLElement, chartAttr: string, listAttr: string) {
     this.parent = parent;
     this.chartAttr = chartAttr;
+    this.listAttr = listAttr;
   }
 
   public initChart = (dataArray: any[], labelsArray: any[]): void => {
     const component: string = `<div class="stats__chart">
+                                <select class="stats__select" ${this.listAttr.slice(1, -1)}>
+                                  <option class="stats__option" id="${this.chartType.cases}" selected>Cases</option>
+                                  <option class="stats__option" id="${this.chartType.deaths}">Deaths</option>
+                                  <option class="stats__option" id="${this.chartType.recovered}">Recovered</option>
+                                </select>
                                 <canvas  ${this.chartAttr.slice(1, -1)}> </canvas>
                               </div>`;
 
     this.parent?.insertAdjacentHTML('beforeend', component);
     this.chartContainer = document.querySelector(this.chartAttr);
+    this.initChartSelecting();
     this.chartCtx = this.chartContainer?.getContext('2d');
 
     Chart.defaults.global.defaultFontFamily = 'Heebo, sans-serif';
@@ -75,11 +84,7 @@ export default class ChartComponent {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          fontColor: '#fff',
           display: true,
-          text: 'Cumulative cases',
-          fontSize: 16,
-          fontStyle: 'normal',
         },
         legend: {
           display: false,
@@ -153,10 +158,9 @@ export default class ChartComponent {
     return Object.values(dataObject);
   };
 
-  private updateParam = (array: number[], color: string, title: string) => {
+  private updateParam = (array: number[], color: string) => {
     this.chartParamUpd.dataArray = array;
     this.chartParamUpd.color = color;
-    this.chartParamUpd.title = title;
   };
 
   private applyNewParam = () => {
@@ -174,22 +178,33 @@ export default class ChartComponent {
         pointHoverRadius: 8,
       },
     ];
+  };
 
-    this.chart.options.title!.text = this.chartParamUpd.title;
+  private initChartSelecting = (): void => {
+    const list: HTMLSelectElement | null = document.querySelector(this.listAttr);
+
+    list?.addEventListener('change', () => {
+      const { id } = list.options[list.selectedIndex];
+      list.blur();
+      this.chartType.lastUpdType = id;
+      this.updateChart(this.chartType.country);
+    });
   };
 
   public updateChart = async (country?: string): Promise<void> => {
+    this.chartType.country = country;
+
     switch (this.chartType.lastUpdType) {
       case this.chartType.cases:
-        this.updateParam(await this.getCases(country), '#bb86fc', 'Cumulative cases');
+        this.updateParam(await this.getCases(country), '#bb86fc');
         break;
 
       case this.chartType.deaths:
-        this.updateParam(await this.getDeaths(country), '#ff3d47', 'Cumulative deaths');
+        this.updateParam(await this.getDeaths(country), '#ff3d47');
         break;
 
       case this.chartType.recovered:
-        this.updateParam(await this.getRecovered(country), '#03dac6', 'Cumulative recovered');
+        this.updateParam(await this.getRecovered(country), '#03dac6');
         break;
       default:
         throw new Error('Wrong chart type');

@@ -1,4 +1,4 @@
-export default abstract class Swich {
+export default abstract class Switch {
   protected input: HTMLInputElement;
 
   protected value1: string;
