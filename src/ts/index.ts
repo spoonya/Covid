@@ -36,8 +36,6 @@ const init = async (): Promise<void> => {
   search.initSearch(covidSummary, covidCountries);
   await map.init();
   map.init();
-
-  document.addEventListener('changedata', () => {});
 };
 
 init();
