@@ -2,11 +2,9 @@
   @include media-tablet-lg {
     flex-direction: row-reverse;
   }
-
   @include media-smartphone-lg {
     flex-direction: column;
   }
-
   @include block;
 
   flex: 2 1;
@@ -16,18 +14,16 @@
       min-width: 300px;
       max-height: 230px;
     }
-
     @include media-smartphone-sm {
       min-width: 273px;
     }
-
     @include block-item;
     @include block-table-parent;
 
-    min-height: 89px;
-    min-width: 336px;
-
     flex: 2 1;
+
+    min-width: 336px;
+    min-height: 89px;
   }
 
   &__table {
@@ -60,12 +56,10 @@
       width: 200px;
       height: 230px;
     }
-
     @include media-smartphone-lg {
       width: 98.5%;
       min-height: 250px;
     }
-
     @include block-item;
 
     position: relative;
@@ -78,35 +72,33 @@
   &__select {
     font: inherit;
     font-weight: 400;
-
-    overflow: hidden;
+    font-weight: 500;
 
     position: absolute;
     top: 6px;
     left: 50%;
 
-    font-weight: 500;
-
-    transform: translateX(-50%);
+    overflow: hidden;
 
     margin: 0;
 
     cursor: pointer;
     -webkit-user-select: none;
-      -moz-user-select: none;
+       -moz-user-select: none;
+    transform: translateX(-50%);
     white-space: nowrap;
     text-overflow: ellipsis;
 
     color: $color-primary-dark;
     border: 1px solid #aaa;
     border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
     background-color: darken($color-primary-light, 3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
 
     -moz-appearance: button;
     -webkit-padding-end: 20px;
-      -moz-padding-end: 20px;
+       -moz-padding-end: 20px;
     -webkit-padding-start: 2px;
-      -moz-padding-start: 2px;
+       -moz-padding-start: 2px;
   }
 }

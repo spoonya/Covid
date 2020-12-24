@@ -3,20 +3,18 @@
     min-width: 240px;
   }
 
-  @include media-tablet-lg {
+@include media-tablet-lg {
     min-width: 217px;
   }
 
-  @include media-smartphone-lg {
+@include media-smartphone-lg {
     max-width: 100%;
-  }
-
-  min-width: 280px;
-  max-width: 20%;
-
-  @include block;
+  } 
+@include block;
 
   flex: 2 0;
+ min-width: 280px;
+  max-width: 20%;
 
   &__search {
     @include block-item;
@@ -38,7 +36,7 @@
   &__countries {
     @include block-item;
 
-    @include block-table-parent;
+@include block-table-parent;
 
     flex: 2 1;
   }
