@@ -20,6 +20,9 @@ export default class SearchComponent {
                                 <h2 class="cases__title" spellcheck="false">Search</h2>
                                 <input class="cases__input" ${this.searchAttr.slice(1, -1)}
                                   type="text" placeholder="Country">
+                                  <button ${
+                                    DOM.attributes.btnClear
+                                  }><i class="icon fas fa-times" title="Clear"></i></button>
                               </div>`;
     this.parent?.insertAdjacentHTML('afterbegin', component);
   };
@@ -42,6 +45,22 @@ export default class SearchComponent {
     }
 
     return filteredData;
+  };
+
+  private addClickEvtToClearBtn = (summary: Api.CovidSummary, countries: Api.CovidCountries[]) => {
+    const btnClear = document.querySelector('button');
+
+    btnClear?.addEventListener('click', () => {
+      const input: any = this.parent.querySelector(this.searchAttr);
+
+      if (input.value) {
+        input!.value = '';
+        statsTable.fillTableDefaultAll(summary);
+        chart.updateChart();
+        casesTable.fillTable(countries);
+        this.addClickEvtToTable(summary, countries);
+      }
+    });
   };
 
   private addClickEvtToTable = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void =>
@@ -69,7 +88,7 @@ export default class SearchComponent {
   private addKeyupEvtToInput = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
     const input: any = this.parent.querySelector(this.searchAttr);
 
-    input.addEventListener('keyup', () => {
+    input!.addEventListener('keyup', () => {
       const { value } = input;
       const dataCases = this.search(value, countries);
       const dataStats = this.search(value, countries);
@@ -82,6 +101,8 @@ export default class SearchComponent {
         statsTable.fillTableDefaultAll(summary);
       }
 
+      chart.updateChart();
+
       this.addClickEvtToTable(summary, countries);
     });
   };
@@ -89,5 +110,6 @@ export default class SearchComponent {
   public initSearch = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
     this.addClickEvtToTable(summary, countries);
     this.addKeyupEvtToInput(summary, countries);
+    this.addClickEvtToClearBtn(summary, countries);
   };
 }

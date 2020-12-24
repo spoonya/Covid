@@ -17,6 +17,7 @@ interface Dom {
     readonly chartList: string;
     readonly switchDays: string;
     readonly switchRate: string;
+    readonly btnClear: string;
   };
   readonly classes: {
     readonly table: string;
@@ -43,6 +44,7 @@ const DOM: Dom = {
     switchRate: '[data-switch-rate]',
     chart: '[data-chart]',
     chartList: '[data-chart-list]',
+    btnClear: '[data-clear]',
   },
   classes: {
     table: 'table',
