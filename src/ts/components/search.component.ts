@@ -99,9 +99,8 @@ export default class SearchComponent {
         statsTable.fillTableFilteredAll(dataStats);
       } else {
         statsTable.fillTableDefaultAll(summary);
+        chart.updateChart();
       }
-
-      chart.updateChart();
 
       this.addClickEvtToTable(summary, countries);
     });
