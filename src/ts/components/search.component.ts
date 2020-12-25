@@ -47,7 +47,11 @@ export default class SearchComponent {
     return filteredData;
   };
 
-  private addClickEvtToClearBtn = (summary: Api.CovidSummary, countries: Api.CovidCountries[]) => {
+  private addClickEvtToClearBtn = (
+    summary: Api.CovidSummary,
+    countries: Api.CovidCountries[],
+    history: Api.CovidHistory,
+  ) => {
     const btnClear = document.querySelector('button');
 
     btnClear?.addEventListener('click', () => {
@@ -55,15 +59,19 @@ export default class SearchComponent {
 
       if (input.value) {
         input!.value = '';
-        statsTable.fillTableDefaultAll(summary);
+        statsTable.fillTableDefault(summary, history);
         chart.updateChart();
         casesTable.fillTable(countries);
-        this.addClickEvtToTable(summary, countries);
+        this.addClickEvtToTable(summary, countries, history);
       }
     });
   };
 
-  private addClickEvtToTable = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void =>
+  private addClickEvtToTable = (
+    summary: Api.CovidSummary,
+    countries: Api.CovidCountries[],
+    history: Api.CovidHistory,
+  ): void =>
     DOM.htmlElements.casesTable?.querySelectorAll('tr').forEach((row: HTMLElement) => {
       row.addEventListener('click', () => {
         const country = row.id;
@@ -71,21 +79,25 @@ export default class SearchComponent {
         if (!this.activeRow || (this.activeRow && this.activeRow !== row)) {
           const data = this.search(country!, countries, true);
 
-          statsTable.fillTableFilteredAll(data);
+          statsTable.fillTableFiltered(data, country);
           chart.updateChart(country);
           this.activeRow?.classList.remove(DOM.classes.active);
           row.classList.add(DOM.classes.active);
           this.activeRow = row;
         } else {
-          statsTable.fillTableDefaultAll(summary);
           chart.updateChart();
+          statsTable.fillTableDefault(summary, history);
           this.activeRow.classList.remove(DOM.classes.active);
           this.activeRow = null;
         }
       });
     });
 
-  private addKeyupEvtToInput = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
+  private addKeyupEvtToInput = (
+    summary: Api.CovidSummary,
+    countries: Api.CovidCountries[],
+    history: Api.CovidHistory,
+  ): void => {
     const input: any = this.parent.querySelector(this.searchAttr);
 
     input!.addEventListener('keyup', () => {
@@ -96,19 +108,19 @@ export default class SearchComponent {
       casesTable.fillTable(dataCases);
 
       if (value) {
-        statsTable.fillTableFilteredAll(dataStats);
+        statsTable.fillTableFiltered(dataStats, value);
       } else {
-        statsTable.fillTableDefaultAll(summary);
         chart.updateChart();
+        statsTable.fillTableDefault(summary, history);
       }
 
-      this.addClickEvtToTable(summary, countries);
+      this.addClickEvtToTable(summary, countries, history);
     });
   };
 
-  public initSearch = (summary: Api.CovidSummary, countries: Api.CovidCountries[]): void => {
-    this.addClickEvtToTable(summary, countries);
-    this.addKeyupEvtToInput(summary, countries);
-    this.addClickEvtToClearBtn(summary, countries);
+  public initSearch = (summary: Api.CovidSummary, countries: Api.CovidCountries[], history: Api.CovidHistory): void => {
+    this.addClickEvtToTable(summary, countries, history);
+    this.addKeyupEvtToInput(summary, countries, history);
+    this.addClickEvtToClearBtn(summary, countries, history);
   };
 }

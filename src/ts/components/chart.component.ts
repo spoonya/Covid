@@ -1,6 +1,8 @@
 import Chart, { ChartConfiguration } from 'chart.js';
-import { data } from '../index';
+import { dataApi } from '../index';
 import { CovidCountries } from '../data/api.data';
+import calc100kRate from '../helpers/calc.rate.per100k.helper';
+import getLastData from '../helpers/get.last.day.data.helper';
 
 interface ChartCfg {
   lastUpdType?: string;
@@ -26,6 +28,12 @@ export default class ChartComponent {
   private chartCtx!: any;
 
   public chart!: Chart;
+
+  public casesForCountry!: number[];
+
+  public deathsForCountry!: number[];
+
+  public recoveredForCountry!: number[];
 
   private chartDefaultCfg: ChartConfiguration = {
     type: 'line',
@@ -142,46 +150,17 @@ export default class ChartComponent {
     document.addEventListener('changedata', () => this.updateChart(this.chartType.country));
   };
 
-  private getCases = async (country?: string): Promise<any> => {
-    const dataObject: any = country
-      ? (await data.getCovidCountryHistory(country)).timeline.cases
-      : (await data.getCovidHistory()).cases;
-
-    return dataObject;
-  };
-
-  private getDeaths = async (country?: string): Promise<any> => {
-    const dataObject: any = country
-      ? (await data.getCovidCountryHistory(country)).timeline.deaths
-      : (await data.getCovidHistory()).deaths;
-
-    return dataObject;
-  };
-
-  private getRecovered = async (country?: string): Promise<any> => {
-    const dataObject: any = country
-      ? (await data.getCovidCountryHistory(country)).timeline.recovered
-      : (await data.getCovidHistory()).recovered;
-
-    return dataObject;
-  };
-
   private setRate = async (dataObject: any, countries: CovidCountries[]): Promise<number[]> => {
-    const worldPopulation = (await data.getCovidSummary()).population;
     const rate = window.localStorage.getItem('rate');
     const dataArray: any[] = [];
 
     if (rate === 'ABS') {
       dataArray.push(...Object.values(dataObject));
     } else if (this.chartType.country) {
-      dataArray.push(
-        ...Object.values(dataObject).map((num: any) =>
-          Math.ceil(
-            (num * 10e5) / countries.filter((obj) => obj.country === this.chartType.country)[0].population / 10 || 0,
-          ),
-        ),
-      );
+      const countryPopulation = countries.filter((obj) => obj.country === this.chartType.country)[0].population;
+      dataArray.push(...Object.values(dataObject).map((num: any) => calc100kRate(num, countryPopulation)));
     } else {
+      const worldPopulation = (await dataApi.getCovidSummary()).population;
       dataArray.push(
         ...Object.values(dataObject).map((num: any) => Math.ceil((num * 10e5) / worldPopulation / 10 || 0)),
       );
@@ -195,9 +174,7 @@ export default class ChartComponent {
     this.chartParamUpd.labelsArray = Object.keys(dataObject);
 
     if (period === 'LAST') {
-      const lastTwoDataItems: number[] = this.chartParamUpd.dataArray!.slice(
-        Math.max(this.chartParamUpd.dataArray!.length - 2, 0),
-      );
+      const lastTwoDataItems: number[] = [getLastData(this.chartParamUpd.dataArray!)];
       const lastLabelItem: string = this.chartParamUpd.labelsArray![this.chartParamUpd.labelsArray!.length - 1];
 
       this.chartParamUpd.dataArray = [lastTwoDataItems.reduce((prev, next) => next - prev, 0)];
@@ -209,7 +186,7 @@ export default class ChartComponent {
   };
 
   private updateParam = async (dataObject: any, color: string) => {
-    const countries = await data.getCovidCountries();
+    const countries = await dataApi.getCovidCountries();
 
     this.chartParamUpd.dataArray = await this.setRate(dataObject, countries);
     this.setPeriodAndChartType(dataObject);
@@ -252,15 +229,15 @@ export default class ChartComponent {
 
     switch (this.chartType.lastUpdType) {
       case this.chartType.cases:
-        await this.updateParam(await this.getCases(country), '#bb86fc');
+        await this.updateParam(await dataApi.getCountryHistoryCases(country), '#bb86fc');
         break;
 
       case this.chartType.deaths:
-        await this.updateParam(await this.getDeaths(country), '#ff3d47');
+        await this.updateParam(await dataApi.getCountryHistoryDeaths(country), '#ff3d47');
         break;
 
       case this.chartType.recovered:
-        await this.updateParam(await this.getRecovered(country), '#03dac6');
+        await this.updateParam(await dataApi.getCountryHistoryRecovered(country), '#03dac6');
         break;
       default:
         throw new Error('Wrong chart type');

@@ -134,4 +134,28 @@ export class ApiData {
       await this.fetchUrl(`history-${country}`, `https://disease.sh/v3/covid-19/historical/${country}?lastdays=366`);
     return this.loadFromStorage(`history-${country}`) as CovidCountryHistory;
   };
+
+  public getCountryHistoryCases = async (country?: string): Promise<any> => {
+    const dataObject: any = country
+      ? (await this.getCovidCountryHistory(country)).timeline.cases
+      : (await this.getCovidHistory()).cases;
+
+    return dataObject;
+  };
+
+  public getCountryHistoryDeaths = async (country?: string): Promise<any> => {
+    const dataObject: any = country
+      ? (await this.getCovidCountryHistory(country)).timeline.deaths
+      : (await this.getCovidHistory()).deaths;
+
+    return dataObject;
+  };
+
+  public getCountryHistoryRecovered = async (country?: string): Promise<any> => {
+    const dataObject: any = country
+      ? (await this.getCovidCountryHistory(country)).timeline.recovered
+      : (await this.getCovidHistory()).recovered;
+
+    return dataObject;
+  };
 }

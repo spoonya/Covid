@@ -47,7 +47,7 @@ export default class Map {
   constructor(parent: HTMLElement) {
     const options = {
       worldCopyJump: true,
-      minZoom: 3,
+      minZoom: 2,
     };
 
     this.map = L.map(parent, options).setView([44.37256049721892, 2.039828672758004], 3);
