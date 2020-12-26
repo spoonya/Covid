@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import '../styles/style.scss';
 import { ApiData } from './data/api.data';
 import DOM from './constants/dom.const';
@@ -12,8 +13,8 @@ import RateSwitch from './components/rate.switch.component';
 import PeriodSwitch from './components/period.switch.component';
 
 const dataApi = new ApiData();
-const rateSwitch = new RateSwitch(DOM.htmlElements.switches!);
-const periodSwitch = new PeriodSwitch(DOM.htmlElements.switches!);
+new RateSwitch(DOM.htmlElements.switches!);
+new PeriodSwitch(DOM.htmlElements.switches!);
 const search = new SearchComponent(DOM.htmlElements.cases!, DOM.attributes.search);
 const date = new DateComponent(DOM.htmlElements.cases!, DOM.attributes.date);
 const countriesCount = new CountriesCountComponent(DOM.htmlElements.world!, DOM.attributes.countriesCount);

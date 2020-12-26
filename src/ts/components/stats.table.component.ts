@@ -17,7 +17,7 @@ export default class StatsTableComponent {
 
   private covidHistory!: Api.CovidHistory;
 
-  private covidCountries!: Api.CovidCountries[];
+  private covidCountries!: Api.CovidCountries[] | null;
 
   constructor(parent: HTMLElement) {
     this.parent = parent;
@@ -41,7 +41,7 @@ export default class StatsTableComponent {
     if (!this.country) {
       this.fillTableDefault(this.covidSummary, this.covidHistory);
     } else {
-      this.fillTableFiltered(this.covidCountries, this.country);
+      this.fillTableFiltered(this.covidCountries!, this.country);
     }
   };
 
@@ -72,34 +72,41 @@ export default class StatsTableComponent {
 
   private createFilteredData = async (countries: Api.CovidCountries[]): Promise<any[][]> => {
     const countriesCopy = countries.slice();
+    const covidArrayLength = countries.length;
     const newArray: any[][] = [];
-    const { population } = countries[0];
 
-    if (countriesCopy[0].recovered === 0) {
-      countriesCopy[0].recovered = 'No data';
+    let dataObject: any;
+
+    if (!this.isAllPeriod) dataObject = (await dataApi.getCovidCountryHistory(this.country!)).timeline;
+
+    for (let i = 0; i < covidArrayLength; i++) {
+      if (this.isAllPeriod()) {
+        newArray[i] = [
+          countriesCopy[i].country,
+          countriesCopy[i].cases,
+          countriesCopy[i].deaths,
+          countriesCopy[i].recovered,
+        ];
+      } else {
+        newArray[i] = [
+          countriesCopy[i].country,
+          (countriesCopy[i].cases = getLastData(Object.values(dataObject.cases))),
+          (countriesCopy[i].deaths = getLastData(Object.values(dataObject.deaths))),
+          (countriesCopy[i].recovered = getLastData(Object.values(dataObject.recovered))),
+        ];
+      }
+
+      if (countriesCopy[i].recovered === 0) {
+        countriesCopy[i].recovered = 'No data';
+      }
     }
 
-    if (!this.isAllPeriod()) {
-      const dataObject = (await dataApi.getCovidCountryHistory(this.country!)).timeline;
-
-      newArray[0] = [
-        countriesCopy[0].country,
-        getLastData(Object.values(dataObject.cases)),
-        getLastData(Object.values(dataObject.deaths)),
-        getLastData(Object.values(dataObject.recovered)),
-      ];
-    } else {
-      newArray[0] = [
-        countriesCopy[0].country,
-        countriesCopy[0].cases,
-        countriesCopy[0].deaths,
-        countriesCopy[0].recovered,
-      ];
-    }
+    console.log(newArray);
 
     if (!this.isAbsoluteRate()) {
       return newArray.map((subarray) => {
         return subarray.map((el) => {
+          const { population } = countries.filter((obj) => obj.country === subarray[0])[0];
           if (typeof el !== 'string') return calc100kRate(el, population);
           return el;
         });

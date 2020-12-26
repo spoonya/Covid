@@ -79,8 +79,8 @@ export default class SearchComponent {
         if (!this.activeRow || (this.activeRow && this.activeRow !== row)) {
           const data = this.search(country!, countries, true);
 
-          statsTable.fillTableFiltered(data, country);
           chart.updateChart(country);
+          statsTable.fillTableFiltered(data, country);
           this.activeRow?.classList.remove(DOM.classes.active);
           row.classList.add(DOM.classes.active);
           this.activeRow = row;

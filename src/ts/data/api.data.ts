@@ -46,9 +46,9 @@ export interface CovidCountries {
   readonly updated: Date;
   readonly country: string;
   readonly countryInfo: CountryInfo;
-  readonly cases: number;
+  cases: number;
   readonly todayCases: number;
-  readonly deaths: number;
+  deaths: number;
   readonly todayDeaths: number;
   recovered: number | string;
   readonly todayRecovered: number;
