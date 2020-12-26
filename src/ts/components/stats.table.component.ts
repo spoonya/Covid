@@ -45,6 +45,13 @@ export default class StatsTableComponent {
     }
   };
 
+  private isNoData = (value: number | string): string | number => {
+    if (value === 0) {
+      return 'No data';
+    }
+    return value;
+  };
+
   private createDefaultData = async (summary: Api.CovidSummary, history: Api.CovidHistory): Promise<any[][]> => {
     const summaryCopy = { ...summary };
 
@@ -75,33 +82,27 @@ export default class StatsTableComponent {
     const covidArrayLength = countries.length;
     const newArray: any[][] = [];
 
-    let dataObject: any;
+    const dataObject = (await dataApi.getCovidCountryHistory(this.country!)).timeline;
 
-    if (!this.isAllPeriod) dataObject = (await dataApi.getCovidCountryHistory(this.country!)).timeline;
-
-    for (let i = 0; i < covidArrayLength; i++) {
-      if (this.isAllPeriod()) {
+    if (!this.isAllPeriod()) {
+      for (let i = 0; i < covidArrayLength; i++) {
+        newArray[i] = [
+          countriesCopy[i].country,
+          getLastData(Object.values(dataObject.cases)),
+          getLastData(Object.values(dataObject.deaths)),
+          this.isNoData(getLastData(Object.values(dataObject.recovered))),
+        ];
+      }
+    } else {
+      for (let i = 0; i < covidArrayLength; i++) {
         newArray[i] = [
           countriesCopy[i].country,
           countriesCopy[i].cases,
           countriesCopy[i].deaths,
-          countriesCopy[i].recovered,
+          this.isNoData(countriesCopy[i].recovered),
         ];
-      } else {
-        newArray[i] = [
-          countriesCopy[i].country,
-          (countriesCopy[i].cases = getLastData(Object.values(dataObject.cases))),
-          (countriesCopy[i].deaths = getLastData(Object.values(dataObject.deaths))),
-          (countriesCopy[i].recovered = getLastData(Object.values(dataObject.recovered))),
-        ];
-      }
-
-      if (countriesCopy[i].recovered === 0) {
-        countriesCopy[i].recovered = 'No data';
       }
     }
-
-    console.log(newArray);
 
     if (!this.isAbsoluteRate()) {
       return newArray.map((subarray) => {
